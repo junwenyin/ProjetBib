@@ -1,3 +1,8 @@
+/*
+ * create by junwen 19 Nov 2016
+ * pour load books data de XML fichier
+ * pour sauver books data de XML fichier
+ */
 import java.util.*;
 import javax.xml.parsers.*;
 import java.io.IOException;
