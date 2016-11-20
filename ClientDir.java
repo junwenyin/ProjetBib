@@ -58,28 +58,33 @@ public class ClientDir {
 		theConversation = new Socket("localhost", 5000);
 		theIn = new BufferedReader(new InputStreamReader(theConversation.getInputStream()));
 		theOut = new PrintStream(new BufferedOutputStream(theConversation.getOutputStream()));
-		String l = "Type=CherHead ClientName=junwen";
-		theOut.println(l);
-		theOut.println("Type=Chercher ClientName=junwen ParaType=Auteur ParaValeur=jone");
-		theOut.println("Type=END");
-		theOut.flush();
-		
-		String ligne = theIn.readLine();
-		while (true) {
-			if (ligne.equals("\r\n"))
-				break;
-			if (ligne.equals("\n"))
-				break;
-			if (ligne.equals("\r"))
-				break;
-			if (ligne.equals(""))
-				break;
-			if (ligne.startsWith("Type=END"))
-				break;
-			a("Client recoit: " + ligne);
-			ligne = theIn.readLine();
-		}
+		int n = 100;
+		while (n>0) {
+			Thread.sleep(3000);
+			theOut.println("TYPE=0001;");
+			// theOut.println("TYPE=0002;AUTEUR=XXX;");
+			theOut.println("TYPE=0002;NAME=math;");
+			// theOut.println("TYPE=0002;ID=10001;");
+			// theOut.println("TYPE=0003;ID=10001;");
+			theOut.println("TYPE=0000;");
+			theOut.flush();
 
+			String ligne = theIn.readLine();
+			while (true) {
+				if (ligne.equals("\r\n"))
+					break;
+				if (ligne.equals("\n"))
+					break;
+				if (ligne.equals("\r"))
+					break;
+				if (ligne.equals(""))
+					break;
+				a("Client recoit: " + ligne);
+				ligne = theIn.readLine();
+			}
+			n--;
+
+		}
 		theIn.close();
 		theOut.flush();
 		theOut.close();

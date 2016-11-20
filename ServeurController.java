@@ -48,11 +48,14 @@ public class ServeurController {
 		for (int w = 0; w < args.length; w++) {
 			a("\t" + args[w]);
 			if (args[w].startsWith("port=")) {
-				port = Integer.parseInt(args[w].substring(5));
+				ServerInfo.port = Integer.parseInt(args[w].substring(5));
+			}
+			if (args[w].startsWith("name=")) {
+				ServerInfo.name = args[w].substring(5);
 			}
 		}
 
-		a("port utilise: " + port + "!");
+		a("port utilise: " + ServerInfo.port + "!");
 
 		theAppli = new ServeurController();
 		theAppli.myGo();
@@ -61,7 +64,7 @@ public class ServeurController {
 	/**
 	 * Port / Service.
 	 */
-	public static int port = 5000;
+	//public static int port = 5000;
 
 	/**
 	 * ServerSocket.
@@ -81,11 +84,10 @@ public class ServeurController {
 	 * Routine principale.
 	 */
 	public void myGo() throws Exception {
-		//String[] p = { "in=ici", "out=renvoi" };
-		//ListeDir.main(p);
-		theConnection = new ServerSocket(port);
+		//TO LISTDIR
+		theConnection = new ServerSocket(ServerInfo.port);
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
-		a("Socket de connexion en place...");
+		a(ServerInfo.name+":Socket de connexion en place...");
 		while (true) {
 			a("\n\n");
 			theConversation = theConnection.accept();

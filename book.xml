@@ -1,28 +1,17 @@
-<!--comment -->
+<?xml version="1.0" encoding="GB2312" standalone="no"?>
 <books>
-	<book>
-		<id>10001</id>
-		<name>conception de math</name>
-		<auteur>XXX</auteur>
-		<sp>Maths</sp>
-		<keywords>
-			<keyword>FFT</keyword>
-			<keyword>KLF</keyword>
-		</keywords>
-		<dir>/BJ/Maths/3F</dir>
-		<status>OK</status>
-	</book>
-	<book>
-		<id>10002</id>
-		<name>exemple de math</name>
-		<auteur>XXX</auteur>
-		<sp>Maths</sp>
-		<keywords>
-			<keyword>FFT</keyword>
-			<keyword>KLF</keyword>
-			<keyword>bonne</keyword>
-		</keywords>
-		<dir>/BJ/Maths/3F</dir>
-		<status>OK</status>
-	</book>
+<book>
+<name>exemple de math</name>
+<id>10002</id>
+<auteur>XXX</auteur>
+<dir>/BJ/Maths/3F</dir>
+<status>Libre</status>
+</book>
+<book>
+<name>conception de math</name>
+<id>10001</id>
+<auteur>XXX</auteur>
+<dir>/BJ/Maths/3F</dir>
+<status>Emprunte</status>
+</book>
 </books>

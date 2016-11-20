@@ -116,7 +116,7 @@ public class XMLHandler {
 			DOMSource source = new DOMSource(document);
 			transformer.setOutputProperty(OutputKeys.ENCODING, "gb2312");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			PrintWriter pw = new PrintWriter(new FileOutputStream("booksbak.xml"));
+			PrintWriter pw = new PrintWriter(new FileOutputStream("book.xml"));
 			StreamResult result = new StreamResult(pw);
 			transformer.transform(source, result);
 			System.out.println("creat XML success! books nombre：" + books.size());
