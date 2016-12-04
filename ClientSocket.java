@@ -78,25 +78,25 @@ public class ClientSocket {
 	
 	public static void main(String[] args) throws Exception {
 		ArrayList<String> res;
-		a("test 1 ---------------------------------------");
+		a("test se loger ---------------------------------------");
 		res = theAppli.myGo("TYPE=0000;NAME=Junwen;PASS=xxxx;");
 		
-		a("test 2 ---------------------------------------");
+		a("test get liste ---------------------------------------");
 		res = theAppli.myGo("TYPE=0001;TOKEN=Junwen;");
 		
-		a("test 3 ---------------------------------------");
+		a("test chercher avec id ---------------------------------------");
 		res = theAppli.myGo("TYPE=0002;ID=10001;TOKEN=Junwen;");
 		
-		a("test 4 ---------------------------------------");
+		a("test chercher avec auteur ---------------------------------------");
 		res = theAppli.myGo("TYPE=0002;AUTEUR=xxx;TOKEN=Junwen;");
 		
-		a("test 5 ---------------------------------------");
+		a("test chercher avec name ---------------------------------------");
 		res = theAppli.myGo("TYPE=0002;NAME=math;TOKEN=Junwen;");
 		
-		a("test 6 ---------------------------------------");
+		a("test télécharger une livre avec id ---------------------------------------");
 		res = theAppli.myGo("TYPE=0003;ID=10001;TOKEN=Junwen;");
 		
-		a("test 7 ---------------------------------------");
+		a("test 7 wrong---------------------------------------");
 		res = theAppli.myGo("TYPE=4254;ID=10001;TOKEN=Junwen;");
 	}
 }
