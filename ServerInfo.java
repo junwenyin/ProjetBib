@@ -1,3 +1,11 @@
+/*
+ * ServerInfo.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * pour sauver les infomations des servers
+ */
+
 import java.io.*;
 import java.util.ArrayList;
 

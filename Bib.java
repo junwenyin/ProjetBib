@@ -1,3 +1,11 @@
+/**
+ * Bib.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * test de interface entre junwen et lu
+ */
+
 import java.util.ArrayList;
 
 public class Bib implements BibHandler{

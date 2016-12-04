@@ -1,15 +1,15 @@
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-//
-//		-------------------------------------
-//		 Tentative de serveur de pages html.
-//		-------------------------------------
-//
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
+/*
+ * ServerController.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * entrée de le projet
+ * Thread Pools
+ * run AdminHandler
+ * run SocketHandler 
+ */
 
-//	Java --- langage
-//
+
 import java.io.*;
 import java.util.concurrent.*;
 
@@ -43,7 +43,7 @@ public class ServerController {
 		a("---------------------");
 		a(" Serveur TCP: ");
 		a("---------------------");
-		a("\njunwen lu qian version décenbre 2016 ");
+		a("\n@junwen lu qian version 1.0 décembre 2016 ");
 
 		/*
 		for (int w = 0; w < args.length; w++) {
@@ -82,7 +82,7 @@ public class ServerController {
 		theConnection = new ServerSocket(ServerInfo.getInstance().getPort());
 		a(ServerInfo.getInstance().getName()+":Socket Server running avec port: " + ServerInfo.getInstance().getPort());
 		
-		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
 		Runnable adminThread = new AdminHandler();
 		fixedThreadPool.execute(adminThread);
 		

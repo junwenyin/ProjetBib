@@ -1,3 +1,11 @@
+/*
+ * UserInfoManager.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * pour verifier les utilisateurs ou s'inscrire les nouvaux utilisateurs
+ */
+
 import java.util.ArrayList;
 
 public class UserInfoManager {

@@ -1,3 +1,11 @@
+/*
+ * ProtocolParser.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * pour parser les commandes de clients et serveurs 
+ */
+
 import java.util.ArrayList;
 
 public class ProtocolParser {

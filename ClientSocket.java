@@ -1,3 +1,10 @@
+/*
+ * Commande.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * pour faire conversation  avec server
+ */
 
 import java.io.*;
 import java.net.*;
@@ -93,7 +100,7 @@ public class ClientSocket {
 		a("test chercher avec name ---------------------------------------");
 		res = theAppli.myGo("TYPE=0002;NAME=math;TOKEN=Junwen;",5000);
 		
-		a("test tÃ©lÃ©charger une livre avec id ---------------------------------------");
+		a("test télécharger une livre avec id ---------------------------------------");
 		res = theAppli.myGo("TYPE=0003;ID=10001;TOKEN=Junwen;",5001);
 		
 		a("test 7 wrong---------------------------------------");

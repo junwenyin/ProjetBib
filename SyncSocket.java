@@ -1,3 +1,11 @@
+/*
+ * SyncSocket.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * pour sync la liste de livre entre les serveurs
+ */
+
 import java.io.*;
 import java.net.*;
 
@@ -19,7 +27,7 @@ public class SyncSocket {
 			sb.append("TYPE=8001;TOKEN=");
 			sb.append(ServerInfo.getInstance().getToken());
 			sb.append(";SERVER=");
-			sb.append(ServerInfo.getInstance().getName());
+			sb.append(ServerInfo.getInstance().getName().toString());
 			sb.append(";");
 			String l =sb.toString();
 			theOut.println(l);

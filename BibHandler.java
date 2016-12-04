@@ -1,13 +1,13 @@
+/**
+ * BibHandler.java
+ * @author Junwen
+ * 01/12/2016
+ * version 1.0
+ * interface entre junwen et lu
+ */
+
 import java.util.ArrayList;
 
-/**
- * 
- */
-
-/**
- * @author Administrator
- *
- */
 public interface BibHandler {
 	/*chercher un livre avec ID, retourner le liste des livres  
 	//exp de retour :
