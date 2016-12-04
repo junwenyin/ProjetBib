@@ -4,14 +4,14 @@ public class Book {
 	public String name;
 	public String auteur;
 	public String id;
-	public String status;
 	public String dir;
+	public String server;
 	//public ArrayList<String> keywords; 
-	public Book(String sid,String sname,String sauteur, String sstatus,String sdir){
+	public Book(String sid,String sname,String sauteur, String sdir,String sserver ){
 		name=sname;
 		id = sid;
 		auteur = sauteur;
-		status = sstatus;
+		server = sserver;
 		dir= sdir;
 	}
 	public Book(){
