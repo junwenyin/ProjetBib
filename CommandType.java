@@ -1,6 +1,6 @@
 
 public enum CommandType {
-	HEAD("head"),END("end"),CHERCHER("chercher"),Empunter("emprunter"),ERREUR("erreur"),SOCKETOVER("socketover");
+	CHERCHER("chercher"),DOWNLOAD("download"),ERREUR("erreur"),SYNCH("synch"),LISTE("liste"),LOGER("loger"),INSCRIRE("inscrire");
 	private String scode;
 	private CommandType(String _scode){
 		scode = _scode;

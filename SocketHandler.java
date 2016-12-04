@@ -39,8 +39,10 @@ public class SocketHandler implements Runnable {
 	 * Fichiers de la conversation.
 	 */
 	public Socket theConversation;
+	public String str_token;
 	public BufferedReader theIn;
 	public PrintStream theOut;
+	BibHandler bib = new Bib();
 
 	/**
 	 * Routine principale.
@@ -81,108 +83,106 @@ public class SocketHandler implements Runnable {
 	 */
 	public void doConv() throws Exception {
 		log("...doConv()...");
-		boolean isOver = false;
-		while (!isOver) {
-			log("...premiere ligne de la question...");
-			String ligne = theIn.readLine();
-			log(ligne);
+		log("...premiere ligne de la question...");
+		String ligne = theIn.readLine();
+		log(ligne);
 
-			Command headcommand = ProtocolHandler.normaliserCommande(ligne);
-			if (headcommand.comType.equals(CommandType.HEAD)) {
-				log("receive un tete de request....");
-			} else {
-				log("do rien....");
-				return;
-			}
-			log("...suite de la request...");
+		Commande command = ProtocolParser.parser(ligne);
+		// qui est le client
+		String str_token = "";
+		String str_Name = "";
+		String str_Pass = "";
+		if (ligne.contains("TOKEN=")) {
+			int indexname = ligne.indexOf("TOKEN=");
+			int index = ligne.indexOf(";", indexname);
+			str_token = ligne.substring(indexname + 6, index);
+		} else if (ligne.contains("NAME=") && ligne.contains("PASS=")) {
+			int indexname = ligne.indexOf("NAME=");
+			int index = ligne.indexOf(";", indexname);
+			str_Name = ligne.substring(indexname + 5, index);
+			int indexPass = ligne.indexOf("PASS=");
+			index = ligne.indexOf(";", indexPass);
+			str_Pass = ligne.substring(indexPass + 5, index);
+		}
 
-			Command newCommand;
+		boolean isValide = false;
+		if (command.comType == CommandType.LOGER) {
+			isValide = UserInfoManager.userInfo.verifierUserByPW(str_Name, str_Pass);
+		} else {
+			isValide = UserInfoManager.userInfo.verifierUserByToken(str_token);
+		}
 
-			while (true) {
-				if (ligne.equals("\r\n"))
-					break;
-				if (ligne.equals("\n"))
-					break;
-				if (ligne.equals("\r"))
-					break;
-				if (ligne.equals(""))
-					break;
-				newCommand = ProtocolHandler.normaliserCommande(ligne);
-				if (newCommand.comType.equals(CommandType.SOCKETOVER)) {
-					isOver = true;
-					break;
-				} else if (newCommand.comType.equals(CommandType.END)) {
-					break;
-				} 
-				else if (newCommand.comType.equals(CommandType.CHERCHER)
-						|| newCommand.comType.equals(CommandType.Empunter)) {
-					log("--------do chercher ou emprunter");
-					exeute(newCommand);
-					reponse(newCommand);
+		if (isValide) {
+			ArrayList<String> searchRes;
+			switch (command.comType) {
+			case SYNCH:
+				ArrayList<String> bookDataList = new ArrayList<String>();
+				while (true) {
+					ligne = theIn.readLine();
+					log("...serveur recoit..." + ligne);
+					if (ligne.equals("\r\n"))
+						break;
+					if (ligne.equals("\n"))
+						break;
+					if (ligne.equals("\r"))
+						break;
+					if (ligne.equals(""))
+						break;
+					bookDataList.add(ligne);
 				}
-				ligne = theIn.readLine();
-				log("serveur recoit: " + ligne);
-			}
-		}
-	}
-
-	ArrayList<Book> searchRes = new ArrayList<Book>();
-	boolean isSuccessEmprunter = false;
-
-	private void exeute(Command command) {
-		if (command.comType.equals(CommandType.Empunter)) {
-			isSuccessEmprunter = BookStore.getInstance().empunterBookByID(command.paraValeur);
-		} else if (command.comType.equals(CommandType.CHERCHER)) {
-			if (command.paraType.equals(ParaType.ID)) {
-				searchRes = BookStore.getInstance().searchByID(command.paraValeur);
-			} else if (command.paraType.equals(ParaType.NAME)) {
-				searchRes = BookStore.getInstance().searchByName(command.paraValeur);
-			} else if (command.paraType.equals(ParaType.AUTEUR)) {
-				searchRes = BookStore.getInstance().searchByAuteur(command.paraValeur);
-			}
-		}
-	}
-
-	private void reponse(Command command) {
-		log("...reponse..head.");
-		if (command.comType.equals(CommandType.Empunter)) {
-			// HEAD
-			theOut.println("TYPE=8001;SN=BJ;RN=1");
-			// ADD CONTENU
-			theOut.println("TYPE=8003;NO=1;SN=BJ;RES=TRUE");
-		} else if (command.comType.equals(CommandType.CHERCHER)) {
-			// HEAD
-			theOut.println("Type=8001;SN=BJ;RN=" + searchRes.size());
-			// ADD CONTENU
-			if (searchRes.size() > 0) {
-				for (int i = 0; i < searchRes.size(); i++) {
-					Book book = searchRes.get(i);
-					StringBuilder line = new StringBuilder();
-					line.append("TYPE=8002;NO=" + i + ";");
-					line.append("SN="+ ServerInfo.name+ ";");
-					line.append("LIVREID=" + book.id + ";");
-					line.append("NAME=" + book.name + ";");
-					line.append("AUTEUR=" + book.auteur + ";");
-					line.append("STATUS=" + book.status + ";");
-					line.append("DIR=" + book.dir + ";");
-					theOut.println(line.toString());
+				// TODO
+				bib.saveAuterListe(bookDataList);
+				theOut.println("TYPE=8002;");
+				theOut.println();
+				break;
+			case LOGER:
+				str_token = UserInfoManager.userInfo.createToken(str_Name);
+				theOut.println("TYPE=1000;SETTOKEN=" + str_token + ";");
+				theOut.println();
+				break;
+			case CHERCHER:
+				searchRes = new ArrayList<String>();
+				// TODO
+				if (command.paraType.equals(ParaType.ID)) {
+					searchRes = bib.searchByID(command.paraValeur);
+				} else if (command.paraType.equals(ParaType.NAME)) {
+					searchRes = bib.searchByName(command.paraValeur);
+				} else if (command.paraType.equals(ParaType.AUTEUR)) {
+					searchRes = bib.searchByAuteur(command.paraValeur);
 				}
+				theOut.println("TYPE=1002;RES=" + searchRes.size());
+				for (String bookinfo : searchRes) {
+					theOut.println(bookinfo);
+				}
+				theOut.println();
+				break;
+			case DOWNLOAD:
+				// TODO
+				theOut.println("TYPE=1003;");
+				String filePath = bib.getDir(command.paraValeur);
+				try {
+					BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+					String data;
+					while ((data = br.readLine()) != null) {
+						theOut.println(data);
+					}
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+				theOut.println();
+				break;
+			case LISTE:
+				for (String bookinfo : bib.getAllListe()) {
+					theOut.println(bookinfo);
+				}
+				theOut.println();
+				break;
+			default:
+				theOut.println();
+				break;
 			}
+			theOut.flush();
 		}
-		// END
-		theOut.println("TYPE=8000;SN=BJ;");
-		theOut.println();
-		/*
-		 * theOut.println("Type=8001;SN=BJ;RN=5"); log(
-		 * "...reponse contenu de la page demandee..."); // ADD CONTENU
-		 * theOut.println(
-		 * "Type=8002;NO=1;SN=BJ;LivreID=55;Name=xx;Auteur=ttt;Status=Libre;Dir=XXX;"
-		 * ); theOut.println(
-		 * "Type=8002;NO=2;SN=BJ;LivreID=55;Name=xx;Auteur=ttt;Statu=Libre;Dir=XXX;"
-		 * ); theOut.println("Type=8003;NO=1;SN=BJ;RES=TRUE");
-		 * theOut.println("Type=8000;");
-		 */
-		theOut.flush();
 	}
 
 	// ----------------------------------------------------------------------

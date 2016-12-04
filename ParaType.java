@@ -1,6 +1,6 @@
 
 public enum ParaType {
-	AUTEUR("auteur"),ID("id"),NAME("name"),SPECIAL("special"),ERREUR("erreur");
+	AUTEUR("auteur"),ID("id"),NAME("name"),SPECIAL("special"),SERVER("servername"),ERREUR("erreur");
 	
 	private String scode;
 	private ParaType(String _scode){
