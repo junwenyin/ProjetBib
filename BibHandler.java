@@ -57,5 +57,5 @@ public interface BibHandler {
 	//exp de retour :
 	./BJ/Maths/id.txt
 	 * */
-	public void saveAuterListe(ArrayList<String> arrayList);
+	public void saveAutreListe(ArrayList<String> arrayList,String port);
 }

@@ -38,7 +38,7 @@ public class SocketHandler implements Runnable {
 	public String str_token;
 	public BufferedReader theIn;
 	public PrintStream theOut;
-	BibHandler bib = new Bib();
+	BibHandler bib = Bib.getInstance();
 
 	/**
 	 * Routine principale.
@@ -127,7 +127,7 @@ public class SocketHandler implements Runnable {
 					bookDataList.add(ligne);
 				}
 				// TODO
-				bib.saveAuterListe(bookDataList);
+				bib.saveAutreListe(bookDataList,command.paraValeur);
 				theOut.println("TYPE=8002;");
 				theOut.println();
 				break;

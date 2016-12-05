@@ -27,7 +27,7 @@ public class SyncSocket {
 			sb.append("TYPE=8001;TOKEN=");
 			sb.append(ServerInfo.getInstance().getToken());
 			sb.append(";SERVER=");
-			sb.append(ServerInfo.getInstance().getName().toString());
+			sb.append(ServerInfo.getInstance().getPort());
 			sb.append(";");
 			String l =sb.toString();
 			theOut.println(l);
@@ -67,7 +67,7 @@ public class SyncSocket {
 
 	private void envoyerListe() throws Exception {
 		// TODO liste
-		BibHandler bib = new Bib();
+		BibHandler bib = Bib.getInstance();
 		for(String bookinfo : bib.getLocalListe() ){
 			theOut.println(bookinfo);
 		}
