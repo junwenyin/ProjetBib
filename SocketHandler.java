@@ -24,7 +24,7 @@ public class SocketHandler implements Runnable {
 	 * Commodit&eacute; d'&eacute;criture.
 	 */
 	static public void log(String s) {
-		System.out.println("Thread name:" + Thread.currentThread().getName() + "---" + s);
+		System.out.println(s);
 	}
 
 	public SocketHandler(Socket theCon) {
@@ -177,6 +177,10 @@ public class SocketHandler implements Runnable {
 				theOut.println();
 				break;
 			}
+			theOut.flush();
+		}else{
+			theOut.println("TYPE=404;INFO=ERREUR DE SE LOGER");
+			theOut.println();
 			theOut.flush();
 		}
 	}

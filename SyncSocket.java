@@ -37,11 +37,11 @@ public class SyncSocket {
 
 			String ligne = theIn.readLine();
 			if(ligne.startsWith("TYPE=8002;")){
-				a("SYNC SUCCESS AVEC :" + port);
+				a("...SYNC SUCCESS AVEC :" + port);
 			}else if(ligne.startsWith("TYPE=8003;")){
-				a("SYNC FAULT AVEC :" + port);
+				a("...SYNC FAULT AVEC :" + port);
 			}else{
-				a("RIEN RECU DE : " + port);
+				a("...RIEN RECU DE : " + port);
 			}
 			
 			while (true) {
@@ -53,7 +53,7 @@ public class SyncSocket {
 					break;
 				if (ligne.equals(""))
 					break;
-				a("RECU de : " +port.toString()+" CONTENU: " + ligne);
+				a("...RECU de : " +port.toString()+" CONTENU: " + ligne);
 				ligne = theIn.readLine();
 			}
 			

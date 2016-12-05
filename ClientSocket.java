@@ -85,6 +85,9 @@ public class ClientSocket {
 	
 	public static void main(String[] args) throws Exception {
 		ArrayList<String> res;
+		InputStreamReader ir;
+		BufferedReader in;
+		/*
 		a("test se loger ---------------------------------------");
 		res = theAppli.myGo("TYPE=0000;NAME=Junwen;PASS=xxxx;",5000);
 		
@@ -105,6 +108,56 @@ public class ClientSocket {
 		
 		a("test 7 wrong---------------------------------------");
 		res = theAppli.myGo("TYPE=4254;ID=10001;TOKEN=Junwen;",5000);
+		*/
+		while(true){
+			System.out.println("1:Chercher une livre avec id");
+			System.out.println("2:Chercher une livre avec name");
+			System.out.println("3:Chercher une livre avec auteur");
+			System.out.println("4:télécharger une livre avec id");
+			System.out.println("5:demander la liste");
+			
+			System.out.println("0:fermer le serveur");
+			ir = new InputStreamReader(System.in);
+			in = new BufferedReader(ir);
+			String str_command;
+			try {
+				str_command = in.readLine();
+				switch (str_command) {
+				case "1":
+					System.out.println("entrer le id de livre");
+					str_command = in.readLine();
+					theAppli.myGo("TYPE=0002;ID="+str_command+";TOKEN=Junwen;",5000);
+					break;
+				case "2":
+					System.out.println("entrer le name de livre");
+					str_command = in.readLine();
+					theAppli.myGo("TYPE=0002;NAME="+str_command+";TOKEN=Junwen;",5000);
+					break;
+				case "3":
+					System.out.println("entrer le auteur de livre");
+					str_command = in.readLine();
+					theAppli.myGo("TYPE=0002;AUTEUR="+str_command+";TOKEN=Junwen;",5000);
+					break;
+				case "4":
+					System.out.println("entrer le id de livre");
+					str_command = in.readLine();
+					theAppli.myGo("TYPE=0003;ID="+str_command+";TOKEN=Junwen;",5001);
+					break;
+				case "5":
+					theAppli.myGo("TYPE=0001;TOKEN=Junwen;",5000);
+					break;
+				case "0":
+					System.exit(0);
+					break;
+				default :
+					break;
+				}
+				System.out.println("----------------------------------\n");
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 	}
 }
 
