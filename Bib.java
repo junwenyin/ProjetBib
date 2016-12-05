@@ -115,16 +115,16 @@ public class Bib implements BibHandler {
 	@Override
 	public String getDir(String id) {
 		/*
-		for (String key : allBooks.keySet()) {
-			for (Book book : allBooks.get(key)) {
-				if (book.getId().toLowerCase().equals(id.toLowerCase())){
-					return book.getDir();
-				}
-			}
+		 * for (String key : allBooks.keySet()) { for (Book book :
+		 * allBooks.get(key)) { if
+		 * (book.getId().toLowerCase().equals(id.toLowerCase())){ return
+		 * book.getDir(); } } }
+		 */
+		if (myBooks.containsKey(id)) {
+			Book book = myBooks.get(id);
+			return book.getDir();
 		}
-		*/
-		Book book = myBooks.get(id);
-		return book.getDir();
+		return null;
 	}
 
 	@Override
