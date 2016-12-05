@@ -114,6 +114,7 @@ public class Bib implements BibHandler {
 
 	@Override
 	public String getDir(String id) {
+		/*
 		for (String key : allBooks.keySet()) {
 			for (Book book : allBooks.get(key)) {
 				if (book.getId().toLowerCase().equals(id.toLowerCase())){
@@ -121,7 +122,9 @@ public class Bib implements BibHandler {
 				}
 			}
 		}
-		return "";
+		*/
+		Book book = myBooks.get(id);
+		return book.getDir();
 	}
 
 	@Override
