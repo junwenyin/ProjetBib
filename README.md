@@ -5,3 +5,5 @@ entree : ServerController.java
 dependance: lib de json:jackson....jar
 
 test client: ClientSocket.java
+
+add junwen2016
