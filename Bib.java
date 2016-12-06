@@ -36,6 +36,7 @@ public class Bib implements BibHandler {
 			});
 			myBooks = new HashMap<>();
 			for (Book book : books) {
+				book.setServer(String.valueOf(ServerInfo.getInstance().getPort()));
 				myBooks.put(book.getId(), book);
 			}
 			String str_Port = String.valueOf(ServerInfo.getInstance().getPort());
@@ -131,6 +132,7 @@ public class Bib implements BibHandler {
 	public void saveAutreListe(ArrayList<String> list, String port) {
 		ArrayList<Book> books = new ArrayList<Book>();
 		for (String str_book : list) {
+			System.out.println(str_book);
 			Book book = new Book();
 			// String.format("ID=%s;Name=%s;Auteur=%s;Dir=%s;SERVER=%s;", id,
 			// name, auteur, id + ".txt",ServerInfo.getInstance().getPort());
@@ -156,10 +158,12 @@ public class Bib implements BibHandler {
 			String server = str_book.substring(i + 7, j);
 
 			if (id != null && name != null) {
+				System.out.println("add book");
 				book.setAuteur(auteur);
 				book.setDir(dir);
 				book.setId(id);
 				book.setName(name);
+				book.setServer(server);
 				books.add(book);
 			}
 		}

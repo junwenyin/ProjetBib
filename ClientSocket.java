@@ -141,7 +141,9 @@ public class ClientSocket {
 				case "4":
 					System.out.println("entrer le id de livre");
 					str_command = in.readLine();
-					theAppli.myGo("TYPE=0003;ID="+str_command+";TOKEN=Junwen;",5000);
+					System.out.println("entrer le port de la livre");
+					int port = Integer.parseInt(in.readLine());
+					theAppli.myGo("TYPE=0003;ID="+str_command+";TOKEN=Junwen;",port);
 					break;
 				case "5":
 					theAppli.myGo("TYPE=0001;TOKEN=Junwen;",5000);

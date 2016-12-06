@@ -1,0 +1,126 @@
+
+H:\workspace\BibProjet\src>javac -classpath .\bib\*.jar *.java
+Bib.java:7: error: package com.fasterxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonParseException;
+                                 ^
+Bib.java:8: error: package com.fasterxml.jackson.core.type does not exist
+import com.fasterxml.jackson.core.type.TypeReference;
+                                      ^
+Bib.java:9: error: package com.fasterxml.jackson.databind does not exist
+import com.fasterxml.jackson.databind.JsonMappingException;
+                                     ^
+Bib.java:10: error: package com.fasterxml.jackson.databind does not exist
+import com.fasterxml.jackson.databind.ObjectMapper;
+                                     ^
+Book.java:1: error: package com.fasterxml.jackson.annotation does not exist
+import com.fasterxml.jackson.annotation.JsonProperty;
+                                       ^
+Book.java:13: error: cannot find symbol
+        @JsonProperty("author")
+         ^
+  symbol:   class JsonProperty
+  location: class Book
+Bib.java:33: error: cannot find symbol
+                ObjectMapper mapper = new ObjectMapper();
+                ^
+  symbol:   class ObjectMapper
+  location: class Bib
+Bib.java:33: error: cannot find symbol
+                ObjectMapper mapper = new ObjectMapper();
+                                          ^
+  symbol:   class ObjectMapper
+  location: class Bib
+Bib.java:35: error: cannot find symbol
+                        ArrayList<Book> books = mapper.readValue(file, new TypeR
+eference<ArrayList<Book>>() {
+                                                                           ^
+  symbol:   class TypeReference
+  location: class Bib
+Bib.java:43: error: cannot find symbol
+                } catch (JsonParseException e) {
+                         ^
+  symbol:   class JsonParseException
+  location: class Bib
+Bib.java:46: error: cannot find symbol
+                } catch (JsonMappingException e) {
+                         ^
+  symbol:   class JsonMappingException
+  location: class Bib
+11 errors
+
+H:\workspace\BibProjet\src>javac -classpath .\lib\*.jar *.java
+javac: invalid flag: lib\jackson-core-2.8.1.jar
+Usage: javac <options> <source files>
+use -help for a list of possible options
+
+H:\workspace\BibProjet\src>javac -classpath .\lib\*.* *.java
+javac: invalid flag: lib\jackson-core-2.8.1.jar
+Usage: javac <options> <source files>
+use -help for a list of possible options
+
+H:\workspace\BibProjet\src>javac .\lib\jackson-annotations-2.8.0.jar;.\lib\jacks
+on-core-2.8.1.jar;.\lib\jackson-d
+javac: invalid flag: .\lib\jackson-annotations-2.8.0.jar;.\lib\jackson-core-2.8.
+1.jar;.\lib\jackson-d
+Usage: javac <options> <source files>
+use -help for a list of possible options
+
+H:\workspace\BibProjet\src>javac .\lib\jackson-annotations-2.8.0.jar;.\lib\jacks
+on-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar *.java
+javac: invalid flag: .\lib\jackson-annotations-2.8.0.jar;.\lib\jackson-core-2.8.
+1.jar;.\lib\jackson-databind-2.8.5.jar
+Usage: javac <options> <source files>
+use -help for a list of possible options
+
+H:\workspace\BibProjet\src>javac -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\j
+ackson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar *.java
+
+H:\workspace\BibProjet\src>java -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\ja
+ckson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar ServerController
+Error: Could not find or load main class ServerController
+
+H:\workspace\BibProjet\src>java ServerController
+---------------------
+ Serveur TCP:
+---------------------
+
+@junwen lu qian version 1.0 décembre 2016
+Exception in thread "main" java.net.BindException: Address already in use: JVM_B
+ind
+        at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+        at java.net.DualStackPlainSocketImpl.socketBind(Unknown Source)
+        at java.net.AbstractPlainSocketImpl.bind(Unknown Source)
+        at java.net.PlainSocketImpl.bind(Unknown Source)
+        at java.net.ServerSocket.bind(Unknown Source)
+        at java.net.ServerSocket.<init>(Unknown Source)
+        at java.net.ServerSocket.<init>(Unknown Source)
+        at ServerController.myGo(ServerController.java:82)
+        at ServerController.main(ServerController.java:60)
+
+H:\workspace\BibProjet\src>javac -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\j
+ackson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar; *.java
+
+H:\workspace\BibProjet\src>java -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\ja
+ckson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar; ServerController
+---------------------
+ Serveur TCP:
+---------------------
+
+@junwen lu qian version 1.0 décembre 2016
+Exception in thread "main" java.net.BindException: Address already in use: JVM_B
+ind
+        at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+        at java.net.DualStackPlainSocketImpl.socketBind(Unknown Source)
+        at java.net.AbstractPlainSocketImpl.bind(Unknown Source)
+        at java.net.PlainSocketImpl.bind(Unknown Source)
+        at java.net.ServerSocket.bind(Unknown Source)
+        at java.net.ServerSocket.<init>(Unknown Source)
+        at java.net.ServerSocket.<init>(Unknown Source)
+        at ServerController.myGo(ServerController.java:82)
+        at ServerController.main(ServerController.java:60)
+
+H:\workspace\BibProjet\src>java -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\ja
+ckson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar; ServerController
+
+H:\workspace\BibProjet\src>javac -cp .\lib\jackson-annotations-2.8.0.jar;.\lib\j
+ackson-core-2.8.1.jar;.\lib\jackson-databind-2.8.5.jar; *.java

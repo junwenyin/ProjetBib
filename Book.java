@@ -17,6 +17,15 @@ public class Book {
 	
 	private	String dir;
 	
+	private String server;
+	
+	public String getServer() {
+		return server;
+	}
+	public void setServer(String server) {
+		this.server = server;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -49,7 +58,7 @@ public class Book {
 	}
 	@Override
 	public String toString() {
-		return String.format("ID=%s;Name=%s;Auteur=%s;Dir=%s;SERVER=%s;", id, name, auteur, id + ".txt",ServerInfo.getInstance().getPort());
+		return String.format("ID=%s;Name=%s;Auteur=%s;Dir=%s;SERVER=%s;", id, name, auteur, id + ".txt",server);
 	}
 	
 }
