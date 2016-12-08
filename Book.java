@@ -1,30 +1,20 @@
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * @author Administrator
+ * @author Lu Pi
  *
  */
 public class Book {
 	
 	private String id;
 	
-	private String name;
+	private String name = "";
 	
-	@JsonProperty("author")
-	private	String auteur;
+	private	String auteur = "";
 	
-	private String special;
+	private String special = "";
 	
 	private	String dir;
 	
 	private String server;
-	
-	public String getServer() {
-		return server;
-	}
-	public void setServer(String server) {
-		this.server = server;
-	}
 	
 	public String getId() {
 		return id;
@@ -56,9 +46,15 @@ public class Book {
 	public void setDir(String dir) {
 		this.dir = dir;
 	}
+	public String getServer() {
+		return server;
+	}
+	public void setServer(String server) {
+		this.server = server;
+	}
 	@Override
 	public String toString() {
-		return String.format("ID=%s;Name=%s;Auteur=%s;Dir=%s;SERVER=%s;", id, name, auteur, id + ".txt",server);
+		return String.format("ID=%s,Name=%s,Auteur=%s,Dir=%s,Special=%s,SERVER=%s;", id, name, auteur, dir,special,server);
 	}
 	
 }

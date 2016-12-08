@@ -3,16 +3,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class Bib implements BibHandler {
 
 	private HashMap<String, Book> myBooks;
-	private HashMap<String, Collection<Book>> allBooks;
+	private HashMap<String, HashMap<String, Book>> libraryBooks;
+	private HashMap<String, Book> allBooks; // all books for searching all books
+											// referent;
+
 	private static Bib bib = new Bib(ServerInfo.getInstance().getName());
 
 	private String libraryName;
@@ -20,47 +20,47 @@ public class Bib implements BibHandler {
 	private Bib(String libraryName) {
 		this.libraryName = libraryName;
 		initStore();
+		libraryBooks = new HashMap<String, HashMap<String, Book>>();
+		libraryBooks.put(libraryName, myBooks);
+		concatBooks();
 	}
 
 	public static Bib getInstance() {
 		return bib;
 	}
 
+	private void concatBooks() {
+		allBooks = new HashMap<>();
+		for (HashMap<String, Book> books : libraryBooks.values()) {
+			allBooks.putAll(books);
+		}
+	}
+
 	private void initStore() {
-		allBooks = new HashMap<String, Collection<Book>>();
-		String filename = libraryName + ".json";
-		File file = new File(filename);
-		ObjectMapper mapper = new ObjectMapper();
 		try {
-			ArrayList<Book> books = mapper.readValue(file, new TypeReference<ArrayList<Book>>() {
-			});
-			myBooks = new HashMap<>();
-			for (Book book : books) {
-				book.setServer(String.valueOf(ServerInfo.getInstance().getPort()));
-				myBooks.put(book.getId(), book);
+			String filename = libraryName + ".txt";
+			FileReader fReader = new FileReader(filename);
+			BufferedReader bReader = new BufferedReader(fReader);
+			ArrayList<String> books = new ArrayList<>();
+			String line = new String();
+			while ((line = bReader.readLine()) != null) {
+				books.add(line);
 			}
-			String str_Port = String.valueOf(ServerInfo.getInstance().getPort());
-			allBooks.put(str_Port, myBooks.values());
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			myBooks = convertBooks(books);
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 
 	@Override
 	public ArrayList<String> searchByID(String id) {
+		Collection<Book> books = allBooks.values();
 		ArrayList<String> bookList = new ArrayList<String>();
-		for (String key : allBooks.keySet()) {
-			for (Book book : allBooks.get(key)) {
-				if (book.getId().toLowerCase().contains(id.toLowerCase())) {
-					bookList.add(book.toString());
-				}
+		String lowercaseKeyword = id.toLowerCase();
+		for (Book book : books) {
+			String lowercaseBookId = book.getId().toLowerCase();
+			if(lowercaseBookId.contains(lowercaseKeyword)) {
+				bookList.add(book.toString());
 			}
 		}
 		return bookList;
@@ -68,12 +68,13 @@ public class Bib implements BibHandler {
 
 	@Override
 	public ArrayList<String> searchByName(String name) {
+		Collection<Book> books = allBooks.values();
 		ArrayList<String> bookList = new ArrayList<String>();
-		for (String key : allBooks.keySet()) {
-			for (Book book : allBooks.get(key)) {
-				if (book.getName().toLowerCase().contains(name.toLowerCase())) {
-					bookList.add(book.toString());
-				}
+		String lowercaseKeyword = name.toLowerCase();
+		for (Book book : books) {
+			String lowercaseBookName = book.getName().toLowerCase();
+			if (lowercaseBookName.contains(lowercaseKeyword)) {
+				bookList.add(book.toString());
 			}
 		}
 		return bookList;
@@ -81,12 +82,13 @@ public class Bib implements BibHandler {
 
 	@Override
 	public ArrayList<String> searchByAuteur(String auteur) {
+		Collection<Book> books = allBooks.values();
 		ArrayList<String> bookList = new ArrayList<String>();
-		for (String key : allBooks.keySet()) {
-			for (Book book : allBooks.get(key)) {
-				if (book.getAuteur().toLowerCase().contains(auteur.toLowerCase())) {
-					bookList.add(book.toString());
-				}
+		String lowerCaseKeyword = auteur.toLowerCase();
+		for (Book book : books) {
+			String lowerCaseAuteur = book.getAuteur().toLowerCase();
+			if (lowerCaseAuteur.contains(lowerCaseKeyword)) {
+				bookList.add(book.toString());
 			}
 		}
 		return bookList;
@@ -94,11 +96,10 @@ public class Bib implements BibHandler {
 
 	@Override
 	public ArrayList<String> getAllListe() {
+		Collection<Book> books = allBooks.values();
 		ArrayList<String> bookList = new ArrayList<String>();
-		for (String key : allBooks.keySet()) {
-			for (Book book : allBooks.get(key)) {
-				bookList.add(book.toString());
-			}
+		for (Book book : books) {
+			bookList.add(book.toString());// toString
 		}
 		return bookList;
 	}
@@ -115,59 +116,51 @@ public class Bib implements BibHandler {
 
 	@Override
 	public String getDir(String id) {
-		/*
-		 * for (String key : allBooks.keySet()) { for (Book book :
-		 * allBooks.get(key)) { if
-		 * (book.getId().toLowerCase().equals(id.toLowerCase())){ return
-		 * book.getDir(); } } }
-		 */
-		if (myBooks.containsKey(id)) {
-			Book book = myBooks.get(id);
-			return book.getDir();
-		}
-		return null;
+		Book book = allBooks.get(id);
+		return book.getDir();
 	}
 
 	@Override
-	public void saveAutreListe(ArrayList<String> list, String port) {
-		ArrayList<Book> books = new ArrayList<Book>();
-		for (String str_book : list) {
-			System.out.println(str_book);
-			Book book = new Book();
-			// String.format("ID=%s;Name=%s;Auteur=%s;Dir=%s;SERVER=%s;", id,
-			// name, auteur, id + ".txt",ServerInfo.getInstance().getPort());
-			// TODO set name.id.dir.auteur
-			int i = str_book.indexOf("ID=");
-			int j = str_book.indexOf(";", i);
-			String id = str_book.substring(i + 3, j);
-
-			i = str_book.indexOf("Name=");
-			j = str_book.indexOf(";", i);
-			String name = str_book.substring(i + 5, j);
-
-			i = str_book.indexOf("Auteur=");
-			j = str_book.indexOf(";", i);
-			String auteur = str_book.substring(i + 7, j);
-
-			i = str_book.indexOf("Dir=");
-			j = str_book.indexOf(";", i);
-			String dir = str_book.substring(i + 4, j);
-
-			i = str_book.indexOf("SERVER=");
-			j = str_book.indexOf(";", i);
-			String server = str_book.substring(i + 7, j);
-
-			if (id != null && name != null) {
-				System.out.println("add book");
-				book.setAuteur(auteur);
-				book.setDir(dir);
-				book.setId(id);
-				book.setName(name);
-				book.setServer(server);
-				books.add(book);
-			}
+	public void saveAutreListe(ArrayList<String> list, String name) {
+		if (libraryBooks.containsKey(name)) {
+			libraryBooks.remove(name);
 		}
-		allBooks.put(port, books);
+		HashMap<String, Book> books = convertBooks(list);
+		libraryBooks.put(name, books);
+		concatBooks();
+	}
+
+	private HashMap<String, Book> convertBooks(ArrayList<String> list) {
+		HashMap<String, Book> books = new HashMap<>();
+		for (String bookInfo : list) {
+			bookInfo = bookInfo.substring(0, bookInfo.length() - 1);
+			String[] fields = bookInfo.split(",");
+			Book book = new Book();
+			for (String info : fields) {
+				String[] pair = info.split("=");
+				{
+					if (pair.length == 2) {
+						String key = pair[0];
+						String value = pair[1];
+						if (key.equals("ID")) {
+							book.setId(value);
+						} else if (key.equals("Name")) {
+							book.setName(value);
+						} else if (key.equals("Auteur")) {
+							book.setAuteur(value);
+						} else if (key.equals("Dir")) {
+							book.setDir(value);
+						} else if (key.equals("SERVER")) {
+							book.setServer(value);
+						} else if (key.equals("Special")) {
+							book.setSpecial(value);
+						}
+					}
+				}
+			}
+			books.put(book.getId(), book);
+		}
+		return books;
 	}
 
 }
