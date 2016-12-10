@@ -1,3 +1,10 @@
+/*
+ * Bib.java
+ * @author pilu
+ * 01/12/2016
+ * version 1.0
+ * pour le management de bib
+ */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
