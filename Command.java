@@ -1,4 +1,10 @@
-
+/*
+ * Command.java
+ * @author junwen
+ * 01/12/2016
+ * version 1.0
+ * pour le classe de commande
+ */
 public class Command {
 	public CommandType comType;
 	public ParaType paraType;
